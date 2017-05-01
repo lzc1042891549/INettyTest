@@ -1,37 +1,33 @@
-package com.lzc.bio.test;
+package com.lzc.biotest;
+
+import constants.LocalConstant;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by liuzhichao on 17/4/29.
  */
-public class TimeServerHandler implements Runnable{
+public class TimeClient {
 
-    private Socket socket;
-
-    public TimeServerHandler(Socket socket){
-        this.socket = socket;
-    }
-
-    public void run() {
-        if (socket == null){
-            return;
-        }
+    public static void main(String[] args) {
+        //与服务端建立链接
         BufferedReader in = null;
         PrintWriter out = null;
+        Socket socket = null;
         try {
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            socket = new Socket(LocalConstant.IP,LocalConstant.MOST_USE_PORT);
+
+            in = new BufferedReader(new InputStreamReader( socket.getInputStream()));
             out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()),true);
 
+            out.println("QUERY SERVER TIME");
             String body = in.readLine();
             if (body != null){
-                if (body.equalsIgnoreCase("QUERY SERVER TIME")){
-                    out.println("server time is :"+new Date(System.currentTimeMillis()));
-                } else {
-                    out.println("WRONG ORDER.");
-                }
+                System.out.println("get msg from server:<"+body+">");
+            } else {
+                System.out.println("get no msg from server");
             }
         } catch (IOException e) {
             e.printStackTrace();

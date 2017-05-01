@@ -1,4 +1,4 @@
-package com.lzc.bio.test;
+package com.lzc.biotest;
 
 import constants.LocalConstant;
 
